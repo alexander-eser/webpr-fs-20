@@ -2,9 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Title</title>
 </head>
 <body>
-$END$
+<script>
+
+/*    const Left = x => f => g => f(x);
+    const Right = x => f => g => g(x);
+    const either = e => f => g => e(f)(g);
+    const id = x => x;
+
+    const eShow = x => x(x=>x)(x => "Result is: " + x);
+
+    const x_ = Math.random();
+    const safeDiv = num => divisor =>
+        divisor === 0
+        ? Left ("Cannot divide by 0")
+            :Right (num/divisor);
+
+    eShow( safeDiv(1)(0))  === "Cannot divide by 0"
+    && eShow( safeDiv(x_)(1)) === "Result is: "+x_*/
+
+    const runTwoTimes = a => b => a*b;
+    const twice = runTwoTimes(2);
+
+    [1,2,3].map(twice).toString() === "2,4,6"
+
+</script>
 </body>
 </html>

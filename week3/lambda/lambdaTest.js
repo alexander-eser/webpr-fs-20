@@ -4,7 +4,7 @@
 let ok = [];
 
 // id
-<<<<<<< HEAD
+
 ok.push( id(1) === 1 );
 ok.push( id(id) === id );
 //
@@ -14,7 +14,7 @@ ok.push( konst(42)(1) === 42 );
 ok.push( konst(42)(null) === 42 );
 //
 // // kite
-=======
+
 ok.push( id(1)  === 1 );
 ok.push( id(id) === id );
 //
@@ -24,7 +24,7 @@ ok.push( konst(42)(1) === 42 );
 ok.push( konst(42)(null) === 42 );
 //
 // kite
->>>>>>> upstream/master
+
 ok.push( snd(null)(42) === 42 );
 //
 // // true
@@ -32,14 +32,14 @@ ok.push( snd(null)(42) === 42 );
 ok.push( T(1)(0) === 1 );
 ok.push( F(1)(0) === 0 );
 //
-<<<<<<< HEAD
+
 ok.push( T(1)(0) === 1 );
 ok.push( F(1)(0) === 0 );
 //
 // // and
-=======
+
 // and
->>>>>>> upstream/master
+
 ok.push( and(F)(F) === F );
 ok.push( and(T)(F) === F );
 ok.push( and(F)(T) === F );
@@ -59,25 +59,24 @@ ok.push( or(T)(T) === T );
 // // beq
 //
 // // Pair
-<<<<<<< HEAD
-=======
 
->>>>>>> upstream/master
+
+
 const dierk = Pair("Dierk")("König"); // immutable
 ok.push( dierk(firstname) === "Dierk");
 ok.push( dierk(lastname)  === "König");
 //
-<<<<<<< HEAD
-const tdierk = Triple("Dierk")("König")(50); // immutable
-ok.push( tdierk(tfirstname) === "Dierk");
-ok.push( tdierk(tlastname)  === "König");
-ok.push( tdierk(tage)       === 50);
-=======
+
 // const tdierk = Triple("Dierk")("König")(50); // immutable
 // ok.push( tdierk(tfirstname) === "Dierk");
 // ok.push( tdierk(tlastname)  === "König");
 // ok.push( tdierk(tage)       === 50);
->>>>>>> upstream/master
+
+// const tdierk = Triple("Dierk")("König")(50); // immutable
+// ok.push( tdierk(tfirstname) === "Dierk");
+// ok.push( tdierk(tlastname)  === "König");
+// ok.push( tdierk(tage)       === 50);
+
 //
 // // tuple
 // const [Person, fn, ln, ag] = Tuple(3);
@@ -97,15 +96,17 @@ ok.push( tdierk(tage)       === 50);
 //
 // // either
 //
-// const safeDiv = num => divisor =>
-//     divisor === 0
-//     ? Left("schlecht!")
-//     : Right(num / divisor);
-//
-// either( safeDiv(1)(0)  )
-//       (console.error)
-//       (console.log);
-//
+const safeDiv = num => divisor =>
+    divisor === 0
+    ? Left("schlecht!")
+    : Right(num / divisor);
+
+either( safeDiv(1)(0)  )
+      //(console.error)
+      //(console.log)
+        (errormsg => console.error(errormsg))
+        (result => console.log(result));
+
 //
 // const [Cash, CreditCard, Invoice, PayPal, pay] = Choice(4);
 // const cash = Cash ();

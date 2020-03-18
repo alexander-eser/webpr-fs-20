@@ -1,23 +1,45 @@
+/*const north = {dx: 0, dy: -1};
+const east = {dx: 1, dy: 0};
+const south = {dx: 0, dy: 1};
+const west = {dx: -1, dy: 0};*/
 
-const north = {dx:  0, dy: -1};
-const east  = {dx:  1, dy:  0};
-const south = {dx:  0, dy:  1};
-const west  = {dx: -1, dy:  0};
+const Pair = x => y => f => f(x)(y);
+
+const north = Pair( 0, -1);
+const east  = Pair( 1,  0);
+const south = Pair( 0,  1);
+const west  = Pair(-1,  0);
 
 let direction = north;
 
 const clockwise = [north, east, south, west, north];
 const countercw = [north, west, south, east, north];
 
-let snake = [
+/*let snake = [
     {x: 10, y: 5},
     {x: 10, y: 6},
     {x: 10, y: 7},
     {x: 10, y: 8},
 ];
-let food = {x: 15, y: 15};
+let food = {x: 15, y: 15};*/
 
-function snakeEquals(a, b) { return a.x === b.x && a.y === b.y }
+let snake = [
+    Pair(10,5),
+    Pair(10,6),
+    Pair(10,7),
+    Pair(10,8),
+];
+let food = Pair(15, 15);
+
+function snakeEquals(a, b) {
+    return a.x === b.x && a.y === b.y
+}
+
+const pairEq = a => b => a(fst) === b(snd) && a(snd) === b(snd);
+
+const pairPlus = a => b => undefined;
+
+const pairMap = f => p => undefined;
 
 function changeDirection(orientation) {
     const idx = orientation.indexOf(direction);
@@ -25,11 +47,11 @@ function changeDirection(orientation) {
 }
 
 function start() {
-    const canvas  = document.getElementById("canvas");
+    const canvas = document.getElementById("canvas");
     const context = canvas.getContext("2d");
 
     const rightArrow = 39;
-    const leftArrow  = 37;
+    const leftArrow = 37;
     window.onkeydown = evt => {
         const orientation = (evt.keyCode === rightArrow) ? clockwise : countercw;
         changeDirection(orientation);
@@ -47,8 +69,12 @@ function nextBoard() {
     const oldHead = snake[0];
 
     function inBounds(x, max) {
-        if (x < 0)   { return max - 1 }
-        if (x > max) { return 0 }
+        if (x < 0) {
+            return max - 1
+        }
+        if (x > max) {
+            return 0
+        }
         return x
     }
 
@@ -57,7 +83,7 @@ function nextBoard() {
         y: inBounds(oldHead.y + direction.dy, maxY)
     };
 
-    if (snakeEquals(food, head)) {  // have we found any food?
+    if (pairEq(food, head)) {  // have we found any food?
         food.x = Math.floor(Math.random() * 20);   // place new food at random location
         food.y = Math.floor(Math.random() * 20);
     } else {
