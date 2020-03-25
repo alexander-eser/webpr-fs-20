@@ -46,6 +46,10 @@ const Right = x => f => g => g(x);
 const either = e => f => g => e(f)(g);
 
 
+const Left   = x => f => g => f(x);
+const Right  = x => f => g => g(x);
+const either = e => f => g => e(f)(g);
+
 // ----- special -----
 
 const Tuple = n => [
