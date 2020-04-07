@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Scope Tests</title>
+</head>
+<body>
+<script>
+
+    //Klasse Person mit firstname und lastname erstellen
+    class Person {
+        constructor(first, last) {
+            this.firstname = first;
+            this.lastname = last
+        }
+
+        getName() {
+            return this.firstname + " " + this.lastname
+        }
+    }
+
+    new Person("Good", "Boy") instanceof Person
+
+
+    class Student extends Person {
+        constructor(first, last, grade) {
+            //super nicht vergessen!
+            super(first, last);
+            this.grade = grade;
+        }
+    }
+
+    const s = new Student("Top", Student, 5.5);
+
+
+</script>
+</body>
+</html>
+

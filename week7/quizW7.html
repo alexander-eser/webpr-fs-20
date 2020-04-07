@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Scope Tests</title>
+</head>
+<body>
+<script>
+
+
+    //Aufgabe 1
+    //        xsl_.eq(ys1) && ! xs2_.eq(ys2_) && xs3_.eq(ys3_) && ! xs3_.eq(ys4_) && ! xs4_.eq(ys3_)
+
+
+    //Aufgabe 2
+
+    //true
+    /*    class Person {
+            constructor(name) {
+                this.name = name;
+            }
+
+            isCool() {
+                return this.name.length > 3
+            };
+
+        }
+
+        const p = new Person("Joe");
+        Person.prototype.isCool = () => true;
+        document.writeln(p.isCool());*/
+
+    //true
+    /*    class Person {
+            isCool(){ return this.name.length > 3};
+        }
+        const p = new Person();
+        p.name = "Dierk";
+        document.writeln(p.isCool());*/
+
+    //false
+    /*    class Person {
+            constructor(name){
+                this.name=name
+            }
+            isCool(){ return name === 'Dierk'};
+        }
+        const p = new Person("Dierk");
+        document.writeln(p.isCool());*/
+
+    //false
+    /*    class Person {
+            constructor(name) {
+                this.name = name;
+            }
+
+            isCool() {
+                return this.name.length > 3
+            };
+        }
+
+        const p = new Person("Joe");
+        p.prototype.isCool() = () => true;
+        document.writeln(p.isCool());*/
+
+    //empty => false
+    /*    class Person {
+            constructor(name) {
+
+            }
+
+            isCool() {
+                return this.name.length > 3
+            };
+        }
+
+        const p = new Person("Dierk");
+        document.writeln(p.isCool());*/
+
+
+    //true
+    /*    class Person {
+            constructor(name) {
+                this.name = name;
+            }
+
+            isCool() {
+                return this.name.length > 3
+            };
+        }
+
+        const p = new Person("Joe");
+        p.isCool = () => true;
+        document.writeln(p.isCool());*/
+
+    //true
+    /*   class Person {
+           constructor(name) {
+               this.name = name;
+           }
+
+           isCool() {
+               return this.name.length > 3
+           };
+       }
+
+       const p = new Person("Dierk");
+       document.writeln(p.isCool());*/
+
+    //true
+    /*      class Person {
+             constructor(name) {
+                 this.name = name;
+             }
+
+             isCool() {
+                 return this.name.length > 3
+             };
+         }
+
+         const p = new Person("Dierk");
+         document.writeln(p.name === "Dierk");*/
+
+    //false
+    /*    class Person {
+            constructor(name) {
+                this.name = name;
+            }
+
+            isCool() {
+                return this.name.length > 3
+            };
+        }
+
+        const p = new Person("Dierk");
+        const joe = {
+            name: "joe",
+            cool: p.isCool()
+        };
+        document.writeln(joe.cool());*/
+
+
+    //Aufgabe 3
+
+    //false
+    /*    class Person {}
+        class Student {}
+        const s = new Student();
+        Object.setPrototypeOf(s, Student.prototype);
+        document.writeln(s instanceof Person);*/
+
+    //true
+    /* class Person {
+
+     }
+     const p = {};
+     Object.setPrototypeOf(p, Person.prototype);
+     document.writeln(p instanceof Person); */
+
+    //true
+    /*  class Person  {
+          constructor(name) {
+              this.name = name;
+          }
+          isCool() { return this.name.length > 3};
+      }
+      const p = new Person("Dierk");
+      document.writeln(p instanceof Person); */
+
+    //false
+    /*    class Person {}
+         class Student {}
+         const s = new Student();
+         Object.setPrototypeOf(Student, Person);
+         document.writeln(s instanceof Person); */
+
+    //true
+    /*  class Person {
+      }
+
+      class Student {
+      }
+
+      const s = new Student();
+      Object.setPrototypeOf(Student.prototype, Person.prototype);
+      document.writeln(s instanceof Student); */
+
+    //true
+    /*  class Person {}
+      class Student extends Person {}
+      const s = new Student();
+      document.writeln(s instanceof Person);*/
+
+    /*class Person {
+
+    }
+    const p = {};
+    Object.setPrototypeOf(p, Person);
+    document.writeln(p instanceof Person);*/
+
+    let xs = [1, 2, 3];
+    let ys = [1, 2, 3];
+
+    function eq() {
+        xs.map((cur, index) => eq(index))
+    }
+
+    //Test cases
+    xs1_.eq(ys1_) && !xs2_.eq(ys2_) && xs3_.eq(ys3_) && !xs3_.eq(ys4_) && !xs4_.eq(ys3_)
+
+
+</script>
+</body>
+</html>
+
