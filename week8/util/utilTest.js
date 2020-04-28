@@ -7,7 +7,7 @@ test("util-times1", assert => {
 
     (10).times( n => collect.push(n) );
 
-    assert.equals(collect.length ,  10);
+    assert.equals(collect.length ,  0);
     assert.equals(collect[0]     ,   0);
     assert.equals(collect[9]     ,   9);
 
@@ -23,6 +23,5 @@ test("util-times2", assert => {
     assert.equals(collect.length , 10);
     assert.equals(collect[0]     , 1);
     assert.equals(collect[9]     , 10);
-
 
 });
