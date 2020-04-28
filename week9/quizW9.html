@@ -7,237 +7,259 @@
 <body>
 <script>
 
-    //true
+/*    //function failSafe
+    const failSafe = def => callback => x => {
+        try {
+            console.log(callback(x))
+            return callback(x)
+        }
+        catch (e) { return def; }
+    }
+
+    const doError = x => { throw new Error() };
+    const errorCount = failSafe(1)(doError);
+
+    document.writeln(failSafe (false) (x => x) (true) && failSafe (true) (doError) (null)
+        && errorCount(null) === 1)*/
+
+
+
     /*
-    function Todo(text) {
-        let done = false;
-        const check = () => done = true;
-        return{
-            getText: () => text,
-            isDone:  () => done,
-            check:   check
-        }
-    }
-    let todo = Todo("buy milk");
-    todo.check();
-    document.writeln(todo.isDone());
-    */
-
-    //true mit new Todo
-    /*    function Todo(text) {
-            let done = false;
-            const check = () => done = true;
-            return{
-                getText: () => text,
-                isDone:  () => done,
-                check:   check
-            }
-        }
-        let todo = new Todo("buy milk");
-        todo.check();
-        document.writeln(todo.isDone());*/
+    //function then
+    const mult = x =>  x * 5;
+    const add = x => x + 3;
+    const factor_ = 5;
+    const add_ = 3;
 
 
-    //false: todo is not a function!
-    /*    function Todo(text) {
-            let done = false;
-            return {
-                getText: () => text,
-                isDone: () => done,
-                check: done = true
-            }
-        }
+    Function.prototype.then = function (func) {
+        return argument => func(this(argument))
+    };
 
-        let todo = Todo("buy milk");
-        todo.check();
-        document.writeln(todo.isDone());*/
-
-    //true: check wird hier korrekt mit Klammern und Lamda übergeben
-    /*        function Todo(text) {
-                let done = false;
-                return{
-                    getText: () => text,
-                    isDone:  () => done,
-                    check:   () => done = true
-                }
-            }
-            let todo = new Todo("buy milk");
-            todo.check();
-            document.writeln(todo.isDone());*/
+    document.writeln(add.then(mult).then(add) (1) === (1 + add_) * factor_ + add_)
+*/
 
 
-    //false: this.done existiert nicht!!
-    /*    function Todo(text) {
-            let done = false;
-            const check = () => this.done = true;
-            return {
-                getText: () => text,
-                isDone: () => done,
-                check: check
-            }
-        }
+    //6 are right
 
-        let todo = new Todo("buy milk");
-        todo.check();
-        document.writeln(todo.isDone());*/
-
-    //true: oben wird done auf true gesetzt und unten überschrieben, ist aber erlaubt..
-    /*    function Todo(text, done) {
-            const check = () => done = true;
-            return {
-                getText: () => text,
-                isDone:  () => done,
-                check: check
-            }
-        }
-
-        let todo = new Todo("buy milk", false);
-        todo.check();
-        document.writeln(todo.isDone());*/
-
-    //false: const done ist nicht erlaubt, da die Konstanste unten überschrieben wird!!
-    /*    function Todo(text) {
-            const done = false;
-            return {
-                getText: () => text,
-                isDone:  () => done,
-                check:   () => done = true
-            }
-        }
-
-        let todo = new Todo("buy milk");
-        todo.check();
-        document.writeln(todo.isDone());*/
-
-
-    //true: mit function statt const funktioniert auch
-/*    function Todo(text, done) {
-        function check(){ done = true }
+    //false
+/*    const Observable = value => {
+        const listeners = [];
         return {
-            getText: () => text,
-            isDone:  () => done,
-            check:   check
+            onChange: callback => listeners.push(callback),
+            getValue: ()       => value,
+            setValue: val      => {
+                if(value === val) return;
+                value = val;
+                listeners.forEach(listener => listener(val));
+            }
+        }
+    };
+
+    const color = Observable('white');
+    color.value = 'black';
+
+    document.writeln(color.getValue() === 'black')*/
+
+
+    //false
+/*    const Observable = value => {
+        const listeners = [];
+        return {
+            onChange: callback => listeners.push(callback),
+            getValue: ()       => value,
+            setValue: val      => {
+                if(value === val) return;
+                value = val;
+                listeners.forEach(listener => listener(val));
+            }
+        }
+    };
+
+    const color = Observable('white');
+    let observed = null;
+    color.onChange( val => observed = val);
+    document.writeln(observed === color.getValue())*/
+
+
+    //true
+/*    const Observable = value => {
+        const listeners = [];
+        return {
+            onChange: callback => listeners.push(callback),
+            getValue: ()       => value,
+            setValue: val      => {
+                if(value === val) return;
+                value = val;
+                listeners.forEach(listener => listener(val));
+            }
+        }
+    };
+
+    const color = Observable('white');
+    let updateCount = 0;
+    color.onChange(_ => updateCount++);
+
+    color.setValue('black');
+
+    document.writeln(updateCount === 1)*/
+
+    //true, neue Farbe black wird gesetzt
+/*    const Observable = value => {
+        const listeners = [];
+        return {
+            onChange: callback => listeners.push(callback),
+            getValue: ()       => value,
+            setValue: val      => {
+                if(value === val) return;
+                value = val;
+                listeners.forEach(listener => listener(val));
+            }
+        }
+    };
+
+    const color = Observable('white');
+    color.setValue('black');
+    document.writeln(color.getValue() === 'black')*/
+
+
+//true Farbe wird zweimal gesetzt, daher updateCount === 2
+/*const Observable = value => {
+    const listeners = [];
+    return {
+        onChange: callback => listeners.push(callback),
+        getValue: ()       => value,
+        setValue: val      => {
+            if(value === val) return;
+            value = val;
+            listeners.forEach(listener => listener(val));
         }
     }
-    let todo = Todo("buy milk", false);
-    todo.check();
-    document.writeln(todo.isDone());*/
+};
 
-/************************************************/
+const color = Observable('white');
+let updateCount = 0;
+color.onChange(_ => updateCount++);
 
-    //false: callback ist keine aufrufbare Funktion, sondern ein Parameter!
-/*    function handle(callback) {
-        const result = [];
-        callback(result);
-        return result;
-    }
+color.setValue('black');
+color.setValue('white');
 
-    let it = [];
-    document.writeln( handle( it.push(1) ).length === 1 )*/
+document.writeln( updateCount === 2)*/
 
-    //false
-/*    function handle(callback) {
-        const result = [];
-        callback(result);
-        return result;
-    }
-
-    let it = [];
-    document.writeln( handle( () => it.push(1) ).length === 1 )*/
-
-    //false: it existiert nicht!
-/*    function handle(callback) {
-        const result = [];
-        callback(result);
-        return result;
-    }
-
-    document.writeln( handle( it.push(1) ).length === 1 )*/
-
-    //false
-/*    function handle(callback) {
-        const result = [];
-        callback( [] );
-        return result;
-    }
-
-    document.writeln( handle( it => it.push(1) ).length === 1 )*/
-
-    //true
-    // function handle(callback) {
-    //     const result = [];
-    //     return callback( result );
-    // }
-    //
-    // document.writeln( handle( () => [1] ).length === 1 )
-
-    //true
-/*    function handle(callback) {
-        const result = [];
-        callback(result);
-        return result;
-    }
-
-    document.writeln( handle( it => it.push(1) ).length === 1 )*/
-
-    //true
-/*    function handle(callback) {
-        const result = [];
-        callback(result);
-        return result;
-    }
-
-    let it = [];
-    document.writeln( handle( it => it.push(1) ).length === 1 )*/
-
-    //true
-/*    function handle(callback) {
-       return callback( [] );
-    }
-
-    document.writeln( handle( it => { it.push(1); return it; } ).length === 1 )*/
-
-    //true
-/*    function handle(count, callback) {
-        const result = [];
-        for(let i=0; i<count; i++){
-            callback(result);
+//false
+/*const Observable = value => {
+    const listeners = [];
+    return {
+        onChange: callback => listeners.push(callback),
+        getValue: () => value,
+        setValue: val => {
+            if (value === val) return;
+            value = val;
+            listeners.forEach(listener => listener(val));
         }
-        return result;
     }
+};
 
-    let it = [];
-    document.writeln( handle(3, it => it.push(1) ).length === 3 )*/
+const color = Observable('white');
+let updateCount = 0;
+const updateListener = val => updateCount++;
 
-    //false
-/*    function handle(callback) {
-        const result = [];
-        callback(result);
-        return result;
+color.setValue('black');
+
+document.writeln(updateCount === 1)*/
+
+
+//false, nichts wird überschrieben, daher updateCount === 0
+/*const Observable = value => {
+    const listeners = [];
+    return {
+        onChange: callback => listeners.push(callback),
+        getValue: ()       => value,
+        setValue: val      => {
+            if(value === val) return;
+            value = val;
+            listeners.forEach(listener => listener(val));
+        }
     }
+};
 
-    document.writeln( handle( () => [1] ).length === 1 )*/
+const color = Observable('white');
+let updateCount = 0;
+color.onChange(_ => updateCount++);
 
-    //false: it nicht definiert
-/*    function handle(callback) {
-        const result = [];
-        callback(result);
-        return result;
+color.setValue('white');
+
+document.writeln( updateCount === 1)*/
+
+//true
+/*const Observable = value => {
+    const listeners = [];
+    return {
+        onChange: callback => listeners.push(callback),
+        getValue: ()       => value,
+        setValue: val      => {
+            if(value === val) return;
+            value = val;
+            listeners.forEach(listener => listener(val));
+        }
     }
+};
 
-    document.writeln( handle( it.push(1) ).length === 1 )*/
+const color = Observable('white');
 
-    //true: doppeltes Aufrufen von callback(result) : führt zu zweifachem push, also length === 2
-/*    function handle(callback) {
-        const result = [];
-        callback(result);
-        callback(result);
-        return result;
+document.writeln( color.getValue()==='white')*/
+
+//true
+/*const Observable = value => {
+    const listeners = [];
+    return {
+        onChange: callback => listeners.push(callback),
+        getValue: ()       => value,
+        setValue: val      => {
+            if(value === val) return;
+            value = val;
+            listeners.forEach(listener => listener(val));
+        }
     }
+};
 
-    let it = [];
-    document.writeln( handle( it => it.push(1) ).length === 2 )*/
+const color = Observable('white');
+let observed = color.getValue();
+color.onChange( val => observed = val);
 
+document.writeln(observed === color.getValue())*/
+
+
+const Observable = value => {
+    const listeners = [];
+    return {
+        onChange: callback => {
+            listeners.push(callback);
+            callback(value, value);
+        },
+        getValue: ()       => value,
+        setValue: newValue => {
+            if (value === newValue) return;
+            const oldValue = value;
+            value = newValue;
+            listeners.forEach(callback => callback(value, oldValue));
+        }
+    }
+};
+
+let sum = 0;
+const trackable = Observable(0);
+
+//your code
+
+
+
+//testing
+trackable.setValue(x_); // values x_, y_, z_ are given. Do not override.
+trackable.setValue(y_);
+trackable.setValue(z_);
+
+trackable.getValue() === z_ && sum === x_ + y_ + z_
 
 
 </script>
