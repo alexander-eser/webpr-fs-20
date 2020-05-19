@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Scope Tests</title>
+</head>
+<body>
+<script>
+
+    //Q23
+
+    //Shows '1 2' => true
+    /*const idPromise = x => new Promise( resolve => resolve(x));
+
+    const writer = x => {
+        document.writeln(x);
+        return idPromise(x);
+    };
+
+    idPromise(1)
+        .then( writer)
+        .then( it => it + 1)
+        .then( writer );*/
+
+
+    //Shows more than 1 => false, shows 1
+    /*    const idPromise = x => new Promise(resolve => resolve(x));
+
+        const writer = x => {
+            document.writeln(x);
+            return idPromise(x);
+        };
+
+        const filterEven = n => { if (n&2 === 0) return n; else throw Error("not even") };
+
+        idPromise(1)
+            .then( writer)
+            .then( filterEven)
+            .then( writer)
+            .catch(err => {})*/
+
+
+    //Shows '1 1' => 1 undefined => false
+    /*    const idPromise = x => new Promise(resolve => resolve(x));
+
+
+        idPromise(1)
+            .then( it => document.writeln(it))
+            .then( it => document.writeln(it));*/
+
+
+    //Shows '1 2 2'
+    /*    const idPromise = x => new Promise(resolve => resolve(x));
+
+        const writer = x => {
+            document.writeln(x);
+            return idPromise(x);
+        };
+
+        const inc = n => n+1;
+        const filterEven = n => n%2 === 0 ? n:undefined;
+
+        idPromise(1)
+            .then(writer)
+            .then(inc)
+            .then(writer)
+            .then(filterEven)
+            .then(writer)*/
+
+
+    //Shows '1 1' => '1 2' => false
+    /*    const idPromise = x => new Promise(resolve => resolve(x));
+
+        const writer = x => {
+            document.writeln(x);
+            return idPromise(x);
+        };
+
+        idPromise(1)
+            .then(writer)
+            .then(it => it+1)
+            .then(writer);*/
+
+
+    //Shows only '1' => true
+    /*    const idPromise = x => new Promise(resolve => resolve(x));
+
+        const writer = x => {
+            document.writeln(x);
+            return idPromise(x);
+        };
+
+        const filterEven = n => {
+            if (n & 2 === 0) return n; else throw Error("not even")
+        };
+
+        idPromise(1)
+            .then(writer)
+            .then(filterEven)
+            .then(writer)
+            .catch(err => {
+            })*/
+
+
+    //Shows 1 undefined => true
+    /*    const idPromise = x => new Promise(resolve => resolve(x));
+
+        const writer = x => {
+            document.writeln(x);
+            return idPromise(x);
+        };
+
+        const filterEven = n => n%2 === 0 ? n:undefined;
+
+        idPromise(1)
+            .then(writer)
+            .then(filterEven)
+            .then(writer);*/
+
+
+    //Shows '1' => true
+/*    const idPromise = x => new Promise(resolve => resolve(x));
+
+    idPromise(1)
+        .then( it => document.writeln(it));*/
+
+
+    //Shows 1 1 => true
+/*    const idPromise = x => new Promise(resolve => resolve(x));
+
+    idPromise(1)
+        .then( it => {document.writeln(it); return idPromise(it);})
+        .then( it => document.writeln(it));*/
+
+    //Shows 1 => false
+/*    const idPromise = x => new Promise(resolve => resolve(x));
+
+    document.writeln(idPromise(1));*/
+
+
+    //Shows '1 1' => true
+/*    const idPromise = x => new Promise(resolve => resolve(x));
+
+    idPromise(1)
+        .then( it => { document.writeln(it); return it;})
+        .then( it => document.writeln(it));*/
+
+    //Shows '1 1'
+/*    const idPromise = x => new Promise(resolve => resolve(x));
+
+    const writer = x => {
+        document.writeln(x);
+        return idPromise(x);
+    }
+
+    idPromise(1)
+        .then( writer)
+        .then( it => document.writeln(it));*/
+
+</script>
+</body>
+</html>
+

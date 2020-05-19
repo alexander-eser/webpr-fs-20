@@ -7,48 +7,155 @@
 <body>
 <script>
 
-    //Aufgabe 13a
-   /* let xs = [1, 2, 3];
-    let ys = [1, 2, 3];
+    /*    document.writeln("Q14a (5P): ");
 
-    function eq() {
-        xs.map((cur, index) => eq(index))
-    }
+        xs1_ = [1, 2, 3, 4];
+        ys1_ = [1, 2, 3, 4];*/
 
-    document.writeln(xs1_.eq(ys1_) && !xs2_.eq(ys2_) && xs3_.eq(ys3_) && !xs3_.eq(ys4_) && !xs4_.eq(ys3_));*/
+/*    Array.prototype.eq = function (array) {
+        let counter = 0;
+        for (let i = 0; i < array.length; i++) {
+            if (this[i] === array[i]) {
+                counter++;
+            }
+        }
+        return counter === array.length && array.length === this.length;
+    }*/
+
+    /*    document.writeln(xs1_.eq(ys1_));*/
 
 
-   //Q20 -> siehe Word-File!
+
+    //Q20 -> siehe Word-File!
 
 
-   //Q20a
-/*   const Observable = value => {
-       const listeners = [];
-       return {
-           onChange: callback => {
-               listeners.push(callback);
-               callback(value, value);
-           },
-           getValue: () => value,
-           setValue: newValue => {
-               if(value === newValue) return;
-               const oldValue = value;
-               value = newValue;
-               listeners.forEach(callback => callback(value, oldValue));
+    //Q20a
+    /*   const Observable = value => {
+           const listeners = [];
+           return {
+               onChange: callback => {
+                   listeners.push(callback);
+                   callback(value, value);
+               },
+               getValue: () => value,
+               setValue: newValue => {
+                   if(value === newValue) return;
+                   const oldValue = value;
+                   value = newValue;
+                   listeners.forEach(callback => callback(value, oldValue));
+               }
            }
-       }
-   } ;
+       } ;
 
-   let sum = 0;
-   const trackable = Observable(0);
+       let sum = 0;
+       const trackable = Observable(0);
 
-   //tests
-    trackable.setValue(x_); // value x_, y_, z_ are given. Do not override.
-    trackable.setValue(y_);
-    trackable.setValue(z_);
+       //tests
+        trackable.setValue(x_); // value x_, y_, z_ are given. Do not override.
+        trackable.setValue(y_);
+        trackable.setValue(z_);
 
-    trackable.getValue() === z_ && sum === x_ + y_ + z_ ;*/
+        trackable.getValue() === z_ && sum === x_ + y_ + z_ ;*/
 
+
+    /*   const idPromise = x => new Promise( resolve => resolve(x));
+       const failPromise = err => new Promise( (resolve, reject) => reject(err));
+
+       const foo = async i => {
+           let x = await idPromise(i);
+           document.writeln(x);
+       };
+       foo(1);*/
+
+    /*    const idPromise = x => new Promise( resolve => resolve(x));
+        const failPromise = err => new Promise( (resolve, reject) => reject(err));
+
+        const writer = x => {
+            document.writeln(x);
+            return idPromise(x);
+        };
+
+        const inc = n => idPromise(n + 1);
+        const filterEven = n => n % 2 === 0 ? idPromise(n): failPromise("not even");
+
+        const foo = async i => {
+            let x = await idPromise(i);
+            while (x<4) {
+                x = await filterEven(x).catch( err => { /!* ignore *!/});
+                x = await writer(x);
+                x = await inc(x);
+            }
+        };
+        foo(1);*/
+
+
+    /*    const idPromise = x => new Promise( resolve => resolve(x));
+        const failPromise = err => new Promise( (resolve, reject) => reject(err));
+
+        const writer = x => {
+            document.writeln(x);
+            return idPromise(x);
+        };
+
+
+        const foo = async i => {
+            let x = await idPromise(i);
+            x.then(writer)
+        };
+        foo(1);*/
+
+
+    /*    const idPromise = x => new Promise( resolve => resolve(x));
+        const failPromise = err => new Promise( (resolve, reject) => reject(err));
+
+        const writer = x => {
+            document.writeln(x);
+            return idPromise(x);
+        };
+
+        const inc = n => idPromise(n+1);
+
+        const foo = async i => {
+            let x = await idPromise(i);
+            while (x<4) {
+                x= await writer(x);
+                x = await inc(x);
+            }
+        };
+        foo(1);*/
+
+
+    /*    const idPromise = x => new Promise(resolve => resolve(x));
+        const failPromise = err => new Promise((resolve, reject) => reject(err));
+
+        const writer = x => {
+            document.writeln(x);
+            return idPromise(x);
+        };
+
+        const foo = async i => {
+            let x = await idPromise(i);
+            x = await writer(x);
+
+        };
+        foo(1);*/
+
+
+    /*    const NullSafe = x => {
+            const isNullSafe = y => y && y.then;
+            const maywrap    = y => ___ ; // if y is not NullSafe yet, make it so
+            return {
+                then: fn => ___ // see(1)
+            }
+        };
+
+        // x_ and y_ are given. do not override.
+        NullSafe(x_)
+            .then( x => x*2)          // must auto-promote
+            .then( x => NullSafe(x))  // must not auto-promote
+            .then( x => y_ = x + 1)   // store value, check no double promotion
+            .then( x => null)         // jump over rest
+            .then( x => x.mustNotBeCalled) !== null && y_ === x_ * 2 + 1*/
 
 
 </script>
