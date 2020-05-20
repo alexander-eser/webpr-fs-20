@@ -119,43 +119,338 @@
 
 
     //Shows '1' => true
-/*    const idPromise = x => new Promise(resolve => resolve(x));
+    /*    const idPromise = x => new Promise(resolve => resolve(x));
 
-    idPromise(1)
-        .then( it => document.writeln(it));*/
+        idPromise(1)
+            .then( it => document.writeln(it));*/
 
 
     //Shows 1 1 => true
-/*    const idPromise = x => new Promise(resolve => resolve(x));
+    /*    const idPromise = x => new Promise(resolve => resolve(x));
 
-    idPromise(1)
-        .then( it => {document.writeln(it); return idPromise(it);})
-        .then( it => document.writeln(it));*/
+        idPromise(1)
+            .then( it => {document.writeln(it); return idPromise(it);})
+            .then( it => document.writeln(it));*/
 
     //Shows 1 => false
-/*    const idPromise = x => new Promise(resolve => resolve(x));
+    /*    const idPromise = x => new Promise(resolve => resolve(x));
 
-    document.writeln(idPromise(1));*/
+        document.writeln(idPromise(1));*/
 
 
     //Shows '1 1' => true
-/*    const idPromise = x => new Promise(resolve => resolve(x));
+    /*    const idPromise = x => new Promise(resolve => resolve(x));
 
-    idPromise(1)
-        .then( it => { document.writeln(it); return it;})
-        .then( it => document.writeln(it));*/
+        idPromise(1)
+            .then( it => { document.writeln(it); return it;})
+            .then( it => document.writeln(it));*/
 
     //Shows '1 1'
-/*    const idPromise = x => new Promise(resolve => resolve(x));
+    /*    const idPromise = x => new Promise(resolve => resolve(x));
 
-    const writer = x => {
-        document.writeln(x);
-        return idPromise(x);
-    }
+        const writer = x => {
+            document.writeln(x);
+            return idPromise(x);
+        }
 
-    idPromise(1)
-        .then( writer)
-        .then( it => document.writeln(it));*/
+        idPromise(1)
+            .then( writer)
+            .then( it => document.writeln(it));*/
+
+
+    //Q20a => noch keine Lösung!
+    /*const Observable = value => {
+        const listeners = [];
+        return {
+            onChange: callback => {
+                listeners.push(callback);
+                callback(value, value);
+            },
+            getValue: () => value,
+            setValue: newValue => {
+                if (value === newValue) return;
+                const oldValue = value;
+                value = newValue;
+                listeners.forEach(callback => callback(value, oldValue));
+            }
+        }
+    };
+
+    let sum = 0;
+    const trackable = Observable(0);
+
+    //code:
+
+    document.writeln(trackable);
+
+    //tests
+        trackable.setValue(x_);
+        trackable.setValue(y_);
+        trackable.setValue(z_);
+
+        trackable.getValue() === z_ && sum == x_ + y_ + z_;*/
+
+
+    //Q24a
+    /*    const NullSafe = x => {
+            const isNullSafe = y => y && y.then;
+            const mayWrap = y =>  !isNullSafe(y) && NullSafe(y);
+            return {
+                then: fn => x && mayWrap(fn(x))
+            }
+        };
+
+        NullSafe(1).then(console.log);
+        NullSafe(null).then(console.log);
+        NullSafe(2).then(x => null).then(console.log)*/
+
+    //Scheduler
+    const Scheduler = () => {
+        let inProcess = false;
+        const tasks = [];
+
+        function process() {
+            if (inProcess) {
+                return;
+            }
+            if (tasks.length === 0) {
+                return;
+            } // guard clause
+            inProcess = true;
+            const task = tasks.pop();
+
+            let wasOk = false;
+            const ok = () => wasOk = true;
+            const doit = new Promise((resolve, reject) => {
+                task(resolve);
+            }).then(() => {
+                inProcess = false;
+                process();
+            });
+        }
+
+        function add(task) {
+            tasks.unshift(task);
+            process();
+        }
+
+        return {
+            add: add,
+            addOk: task => add(ok => {
+                task();
+                ok();
+            }) // convenience
+        }
+    };
+
+    //Q26
+
+    //Shows '0 1' => 0: false
+    /*    let state = [0];
+
+        const scheduler = Scheduler();
+        scheduler.add(ok => {
+            setTimeout(_ => {
+                state.push(1);
+                ok();
+            }, 100)
+        });
+        scheduler.add(ok => {
+            state.push(2);
+            ok();
+        });
+        document.writeln(state);*/
+
+
+    //Shows '0' => 0: true
+    /*    let state = [0];
+
+        const scheduler = Scheduler();
+        scheduler.add(ok => {
+            setTimeout(_ => {
+                state.push(1);
+                ok();
+            }, 100)
+        });
+        scheduler.add(ok => {
+            state.push(2);
+            ok();
+        });
+        document.writeln(state);*/
+
+
+    //Might show '0' but might just as well show nothing or '3' or '1'
+    //=> always shows 0 => false
+    /*    let state = 3;
+
+        const scheduler = Scheduler();
+        scheduler.add(ok => {
+            setTimeout(_ => {
+                state = state - 2;
+                ok();
+            }, 100)
+        });
+        scheduler.add(ok => {
+            state = state - 1;
+            ok();
+        });
+        scheduler.add(ok => {
+            document.writeln(state);
+            ok();
+        });*/
+
+
+    //Shows '0 1 2' => shows 0 => false
+    /*    let state = [0];
+
+        const scheduler = Scheduler();
+        scheduler.add(ok => {
+            setTimeout(_ => {
+                state.push(1);
+                ok();
+            }, 100)
+        });
+        scheduler.add(ok => {
+            state.push(2);
+            ok();
+        });
+        document.writeln(state);*/
+
+
+    //Shows '0' evantually and no other value => true
+    /*        let state = 3;
+
+            const scheduler = Scheduler();
+            scheduler.add(ok => {
+                setTimeout(_ => {
+                    state = state - 2;
+                    ok();
+                }, 100)
+            });
+            scheduler.add(ok => {
+                state = state - 1;
+                ok();
+            });
+            scheduler.add(ok => {
+                document.writeln(state);
+                ok();
+            });*/
+
+
+    //Shows '0 2' => 0: false
+    /*    let state = [0];
+
+        const scheduler = Scheduler();
+        scheduler.add(ok => {
+            setTimeout(_ => {
+                state.push(1);
+                ok();
+            }, 100)
+        });
+        scheduler.add(ok => {
+            state.push(2);
+            ok();
+        });
+        document.writeln(state);*/
+
+
+    //Shows '0 1 2' => true
+    /*    let state = [0];
+
+        const scheduler = Scheduler();
+        scheduler.add(ok => {
+            setTimeout(_ => {
+                state.push(1);
+                ok();
+            }, 100)
+        });
+        scheduler.add(ok => {
+            state.push(2);
+            ok();
+        });
+        scheduler.add(ok => {
+            document.writeln(state);
+            ok();
+        });*/
+
+
+    //Logs 'x' and '0' => true
+    /*    let state = 3;
+
+        const scheduler = Scheduler();
+        scheduler.add(ok => {
+            setTimeout(_ => {
+                state = state - 2;
+                ok();
+            }, 100);
+        });
+        scheduler.add(ok => {
+            state = state - 1;
+            ok();
+        });
+        scheduler.add(ok => {
+            console.log(state);
+            ok();
+        });
+
+        console.log('x');*/
+
+
+    //Shows '0,2' => Shows 0,1,2 => false
+    /*    let state = [0];
+
+        const scheduler = Scheduler();
+        scheduler.add(ok => {
+            setTimeout(_ => {
+                state.push(1);
+                ok();
+            }, 100)
+        });
+        scheduler.add(ok => {
+            state.push(2);
+            ok();
+        });
+        scheduler.add(ok => {
+            document.writeln(state);
+            ok();
+        });*/
+
+
+    /*********************************************************************/
+
+    //Q27
+
+    const DataFlowVariable = howto => {
+        let value = undefined;
+        return () => undefined === value
+            ? value = howto()
+            : value;
+    };
+
+    //Shows '4' => true
+/*    const x = DataFlowVariable(() => y() * 2);
+    let y = DataFlowVariable(() => 1);
+    y = DataFlowVariable(() => 2);
+
+    document.writeln(x());*/
+
+
+    //Shows '2' => true
+/*    const x = DataFlowVariable(() => y() * 2);
+    let y = DataFlowVariable(() => 1);
+
+    x();
+    y = DataFlowVariable(() => 2);
+
+    document.writeln(x());*/
+
+
+    //Shows '2' => true
+/*    const x = DataFlowVariable(() => y() *2);
+    const y = DataFlowVariable(() => 1);
+    document.writeln(x());*/
+
+
 
 </script>
 </body>
