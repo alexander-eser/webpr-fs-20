@@ -7,7 +7,20 @@
 <body>
 <script>
 
+    //Q28a
+    const str2chars = str => [...str];
+    const isAlpha = char => char.match(/[a-z]/);
 
+    const palindrome = (a) => {
+        const allLowerCase = str2chars(a.toLowerCase()).filter(e => isAlpha(e));
+        const reversed = [...allLowerCase].reverse();
+
+        return allLowerCase.toString() === reversed.toString();
+    };
+
+    document.writeln(palindrome("Madam, I'm Adam!")
+        && palindrome("Never odd or even.")
+        && !palindrome("Amore"));
 
 </script>
 </body>
